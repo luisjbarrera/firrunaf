@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Recycled Products</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h2 {
+            color: #333;
+        }
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+        #migrafico {
+            width: 100%;
+            max-width: 600px;
+            margin-right: 40px;
+        }
+        .navbar {
+            width: 100%;
+            background-color: #555;
+            overflow: auto;
+        }
+        .navbar a {
+            float: left;
+            padding: 12px;
+            color: white;
+            text-decoration: none;
+            font-size: 17px;
+        }
+        .navbar a:hover {
+            background-color: #000;
+        }
+        .active {
+            background-color: #04AA6D;
+        }
+        @media screen and (max-width: 500px) {
+            .navbar a {
+                float: none;
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="index.html"><i class="fa fa-fw fa-home"></i> Home</a> 
+        <a class="active" href="contribuciones.html"><i class="fa fa-fw fa-bar-chart-o"></i> My contribution</a>
+        <a href="imagenes-descargadas.html"><i class="fa fa-fw fa-map-marker"></i> Map of collection centers</a>
+        <a href="canjes.html"><i class="fa fa-fw fa-map-marker"></i> Redeem your points</a>
+    </div>
+
+    <div class="row">
+        <div id="migrafico">
+            <h2>My contributions in figures</h2>
+            <canvas id="myChart"></canvas>
+        </div>
+        <div id="migrafico">
+            <h2>Is about to achieve your goal</h2>
+            <div id="imageContainer"></div>
+            <p>You're just one step away from reaching your goal! Keep going, every effort makes a difference for a better planet. You can do it! 🌿♻️</p>
+        </div>    
+        <div id="sidebar">
+            <h2>My Recycled Products List</h2>
+            <table id="productTable">
+                <thead>
+                    <tr>
+                        <th>Products</th>
+                        <th>Quantity (kg)</th>
+                        <th>Site</th>
+                        <th>+ Points</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Products will be populated by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script>
+        // Data for deliveries
+        const entregas = [
+            { producto: "Paper", cantidad: "10kg white paper", local: "Coafee Central", puntos: "8" },
+            { producto: "Plastic", cantidad: "3kg PET bottles", local: "School San Francisco", puntos: "3" },
+            { producto: "Plastic", cantidad: "5kg PET bottles", local: "Municipality", puntos: "5" },
+            { producto: "Organic", cantidad: "8kg coffee waste", local: "School sorting and collection center", puntos: "16" },
+            { producto: "+ Additional Points", cantidad: "Friend invitation", local: "Additional points earned", puntos: "2" }
+        ];
+
+        // Populate the product table
+        const productTableBody = document.querySelector("#productTable tbody");
+        entregas.forEach(entrega => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${entrega.producto}</td>
+                <td>${entrega.cantidad}</td>
+                <td>${entrega.local}</td>
+                <td><span class='w3-badge w3-green'>${entrega.puntos}</span> Pts</td>
+            `;
+            productTableBody.appendChild(row);
+        });
+
+        // Data for the chart
+        const productos = entregas.map(entrega => entrega.producto);
+        const puntos = entregas.map(entrega => parseInt(entrega.puntos));
+
+        // Chart configuration
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: productos,
+                datasets: [{
+                    label: 'Cumulative points graph',
+                    data: puntos,
+                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Create an image element
+        const img = document.createElement("img");
+        img.src = "images/_0d0fc622-63fd-4a0f-8174-61fb821c31cf.jfif"; // Ruta de la imagen
+        img.alt = "Student Recycle";
+        img.style.width = "200px"; // Ajusta el tamaño según tus necesidades
+
+        // Append the image to the desired container
+        document.getElementById("imageContainer").appendChild(img);
+    </script>
+</body>
+</html>
